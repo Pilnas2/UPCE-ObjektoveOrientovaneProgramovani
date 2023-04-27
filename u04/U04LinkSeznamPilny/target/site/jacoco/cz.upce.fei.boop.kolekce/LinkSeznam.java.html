@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="cs"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LinkSeznam.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">U04LinkSeznamPilny</a> &gt; <a href="index.source.html" class="el_package">cz.upce.fei.boop.kolekce</a> &gt; <span class="el_source">LinkSeznam.java</span></div><h1>LinkSeznam.java</h1><pre class="source lang-java linenums">/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package cz.upce.fei.boop.kolekce;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+
+/**
+ *
+ * @author st64167
+ */
+class LinkSeznam&lt;E&gt; implements SpojovySeznam&lt;E&gt; {
+
+    private Prvek&lt;E&gt; prvni, posledni, aktualni;
+    private int pocet;
+
+<span class="fc" id="L22">    public LinkSeznam(E... hodnoty) {</span>
+<span class="pc" id="L23">        Arrays.stream(hodnoty).forEach(hodnota -&gt; vlozNaKonec(hodnota));</span>
+<span class="fc" id="L24">    }</span>
+
+    public void vlozNaKonec(E hodnota) {
+<span class="nc" id="L27">        Objects.requireNonNull(hodnota);</span>
+
+<span class="nc" id="L29">        Prvek&lt;E&gt; p = new Prvek&lt;&gt;(hodnota);</span>
+
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (jePrazdny()) {</span>
+<span class="nc" id="L32">            prvni = p;</span>
+        } else {
+<span class="nc" id="L34">            posledni.dalsi = p;</span>
+        }
+
+<span class="nc" id="L37">        posledni = p;</span>
+<span class="nc" id="L38">        pocet++;</span>
+<span class="nc" id="L39">    }</span>
+
+    @Override
+    public void nastavPrvni() throws KolekceException {
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if (jePrazdny()) {</span>
+<span class="nc" id="L44">            throw new KolekceException();</span>
+        }
+
+<span class="fc" id="L47">        aktualni = prvni;</span>
+<span class="fc" id="L48">    }</span>
+
+    @Override
+    public void nastavPosledni() throws KolekceException {
+
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (jePrazdny()) {</span>
+<span class="nc" id="L54">            throw new KolekceException();</span>
+        }
+
+<span class="fc" id="L57">        aktualni = posledni;</span>
+<span class="fc" id="L58">    }</span>
+
+    @Override
+    public void dalsi() throws KolekceException {
+<span class="nc bnc" id="L62" title="All 4 branches missed.">        if (aktualni == null || !jeDalsi()) {</span>
+<span class="nc" id="L63">            throw new KolekceException();</span>
+        }
+
+<span class="nc" id="L66">        aktualni = aktualni.dalsi;</span>
+
+<span class="nc" id="L68">    }</span>
+
+    @Override
+    public boolean jeDalsi() {
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (aktualni!= null) {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">           return aktualni.dalsi != null;</span>
+        } else{
+<span class="nc" id="L75">            return false;</span>
+        }
+    }
+
+    @Override
+    public void vlozPrvni(E data) {
+<span class="fc" id="L81">        Objects.requireNonNull(data);</span>
+
+<span class="fc" id="L83">        Prvek&lt;E&gt; p = new Prvek&lt;&gt;(data);</span>
+
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (jePrazdny()) {</span>
+<span class="fc" id="L86">            posledni = p;</span>
+        } else {
+<span class="fc" id="L88">            p.dalsi = prvni;</span>
+        }
+
+<span class="fc" id="L91">        prvni = p;</span>
+<span class="fc" id="L92">        pocet++;</span>
+<span class="fc" id="L93">    }</span>
+
+    @Override
+    public void vlozPosledni(E data) {
+<span class="nc" id="L97">        Objects.requireNonNull(data);</span>
+
+<span class="nc" id="L99">        Prvek&lt;E&gt; p = new Prvek&lt;&gt;(data);</span>
+
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (jePrazdny()) {</span>
+<span class="nc" id="L102">            prvni = p;</span>
+        } else {
+<span class="nc" id="L104">            posledni.dalsi = p;</span>
+        }
+
+<span class="nc" id="L107">        posledni = p;</span>
+<span class="nc" id="L108">        pocet++;</span>
+<span class="nc" id="L109">    }</span>
+
+    @Override
+    public void vlozZaAktualni(E data) throws KolekceException {
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (Objects.isNull(aktualni)) {</span>
+<span class="nc" id="L114">            throw new NullPointerException();</span>
+        }
+
+<span class="fc" id="L117">        Objects.requireNonNull(data);</span>
+
+<span class="fc" id="L119">        Prvek&lt;E&gt; p = new Prvek&lt;&gt;(data);</span>
+<span class="fc" id="L120">        p.dalsi = aktualni.dalsi;</span>
+<span class="fc" id="L121">        aktualni.dalsi = p;</span>
+
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        if (Objects.isNull(p.dalsi)) {</span>
+<span class="fc" id="L124">            posledni = p;</span>
+        }
+
+<span class="fc" id="L127">        pocet++;</span>
+<span class="fc" id="L128">    }</span>
+
+    @Override
+    public boolean jePrazdny() {
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        return (size() == 0);</span>
+    }
+
+    @Override
+    public E dejPrvni() throws KolekceException {
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">        if (jePrazdny()) {</span>
+<span class="nc" id="L138">            throw new KolekceException();</span>
+        }
+
+<span class="fc" id="L141">        return prvni.hodnota;</span>
+    }
+
+    @Override
+    public E dejPosledni() throws KolekceException {
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        if (jePrazdny()) {</span>
+<span class="nc" id="L147">            throw new KolekceException();</span>
+        }
+
+<span class="fc" id="L150">        return posledni.hodnota;</span>
+    }
+
+    @Override
+    public E dejAktualni() throws KolekceException {
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">        if (Objects.isNull(aktualni)) {</span>
+<span class="nc" id="L156">            throw new KolekceException();</span>
+        }
+
+<span class="fc" id="L159">        return aktualni.hodnota;</span>
+    }
+
+    @Override
+    public E dejZaAktualnim() throws KolekceException {
+<span class="pc bpc" id="L164" title="2 of 4 branches missed.">        if (aktualni.dalsi == null || aktualni == null) {</span>
+<span class="nc" id="L165">            throw new KolekceException();</span>
+        }
+
+<span class="fc" id="L168">        return aktualni.dalsi.hodnota;</span>
+    }
+
+    @Override
+    public E odeberPrvni() throws KolekceException {
+<span class="nc bnc" id="L173" title="All 2 branches missed.">        if(jePrazdny()){</span>
+<span class="nc" id="L174">            throw new KolekceException();</span>
+        }
+<span class="nc" id="L176">        E data = prvni.hodnota;</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        if(pocet == 1){</span>
+<span class="nc" id="L178">            zrus();</span>
+        } else {
+<span class="nc bnc" id="L180" title="All 2 branches missed.">            if(aktualni == prvni){</span>
+<span class="nc" id="L181">                aktualni = null;</span>
+            }
+<span class="nc" id="L183">            prvni = prvni.dalsi;</span>
+<span class="nc" id="L184">            pocet--;</span>
+        }
+<span class="nc" id="L186">        return data;</span>
+    }
+
+    @Override
+    public E odeberPosledni() throws KolekceException {
+<span class="nc bnc" id="L191" title="All 2 branches missed.">        if (jePrazdny()) {</span>
+<span class="nc" id="L192">            throw new KolekceException();</span>
+        }
+<span class="nc" id="L194">        E data = posledni.hodnota;</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">        if(pocet == 1){</span>
+<span class="nc" id="L196">            zrus();</span>
+        } else{
+<span class="nc bnc" id="L198" title="All 2 branches missed.">            if(aktualni == posledni){</span>
+<span class="nc" id="L199">                aktualni = null;</span>
+            }
+<span class="nc" id="L201">            posledni = predchoziPrvek(posledni);</span>
+<span class="nc" id="L202">            posledni.dalsi = null;</span>
+<span class="nc" id="L203">            pocet--;</span>
+        }
+<span class="nc" id="L205">        return data;</span>
+    }
+    
+    private Prvek predchoziPrvek (Prvek posledni) {
+        Prvek prvek;
+<span class="nc bnc" id="L210" title="All 2 branches missed.">        if(pocet == 2 ){</span>
+<span class="nc" id="L211">            prvek = prvni;</span>
+        } else {
+<span class="nc" id="L213">            prvek = prvni;</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">            while (prvek.dalsi != posledni) {</span>
+<span class="nc" id="L215">                prvek = prvek.dalsi;</span>
+            }
+        }
+<span class="nc" id="L218">        return prvek;</span>
+    }
+
+    @Override
+    public E odeberAktualni() throws KolekceException {
+<span class="nc bnc" id="L223" title="All 2 branches missed.">        if (Objects.isNull(aktualni)) {</span>
+<span class="nc" id="L224">            throw new KolekceException();</span>
+        }
+
+<span class="nc" id="L227">        E h = aktualni.hodnota;</span>
+<span class="nc" id="L228">        Prvek&lt;E&gt; dalsi = aktualni.dalsi;</span>
+        Prvek&lt;E&gt; predchozi;
+<span class="nc" id="L230">        for (predchozi = prvni;</span>
+<span class="nc bnc" id="L231" title="All 4 branches missed.">                predchozi != aktualni &amp;&amp; predchozi.dalsi != aktualni;</span>
+<span class="nc" id="L232">                predchozi = predchozi.dalsi) {</span>
+        }
+
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        if (aktualni == prvni) {</span>
+<span class="nc" id="L236">            prvni = dalsi;</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">        } else if (aktualni == posledni) {</span>
+<span class="nc" id="L238">            posledni = predchozi;</span>
+<span class="nc" id="L239">            predchozi.dalsi = null;</span>
+        } else {
+<span class="nc" id="L241">            predchozi.dalsi = dalsi;</span>
+        }
+
+<span class="nc" id="L244">        aktualni = null;</span>
+<span class="nc" id="L245">        pocet--;</span>
+<span class="nc" id="L246">        return h;</span>
+    }
+
+    @Override
+    public E odeberZaAktualnim() throws KolekceException {
+<span class="pc bpc" id="L251" title="1 of 2 branches missed.">        if (Objects.isNull(aktualni)) {</span>
+<span class="nc" id="L252">            throw new KolekceException();</span>
+        }
+
+<span class="fc" id="L255">        Prvek&lt;E&gt; p = aktualni.dalsi;</span>
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">        if (Objects.isNull(p)) {</span>
+<span class="nc" id="L257">            return null;</span>
+        }
+
+<span class="pc bpc" id="L260" title="1 of 2 branches missed.">        if (p == posledni) {</span>
+<span class="nc" id="L261">            posledni = aktualni;</span>
+        }
+
+<span class="fc" id="L264">        aktualni.dalsi = p.dalsi;</span>
+<span class="fc" id="L265">        pocet--;</span>
+
+<span class="fc" id="L267">        return p.hodnota;</span>
+    }
+
+    @Override
+    public int size() {
+<span class="fc" id="L272">        return pocet;</span>
+    }
+
+    @Override
+    public void zrus() {
+<span class="nc" id="L277">        prvni = null;</span>
+<span class="nc" id="L278">        posledni = null;</span>
+<span class="nc" id="L279">        aktualni = null;</span>
+<span class="nc" id="L280">        pocet = 0;</span>
+<span class="nc" id="L281">    }</span>
+
+    @Override
+    public Iterator&lt;E&gt; iterator() {
+<span class="fc" id="L285">    Iterator&lt;E&gt; iterator = new Iterator&lt;E&gt;(){</span>
+    
+<span class="fc" id="L287">        Prvek prvek = prvni;</span>
+
+        @Override
+        public boolean hasNext() {
+<span class="pc bpc" id="L291" title="1 of 2 branches missed.">            return prvek != null;</span>
+        }
+
+        @Override
+        public E next() {
+<span class="pc bpc" id="L296" title="1 of 2 branches missed.">            if(hasNext()){</span>
+<span class="fc" id="L297">                E data = (E) prvek.hodnota;</span>
+<span class="fc" id="L298">                prvek = prvek.dalsi;</span>
+<span class="fc" id="L299">                return data;</span>
+            }
+<span class="nc" id="L301">            throw new NoSuchElementException();</span>
+        }
+    };
+<span class="fc" id="L304">    return iterator;</span>
+    }
+
+    private static class Prvek&lt;E&gt; {
+
+        Prvek&lt;E&gt; dalsi;
+        E hodnota;
+
+<span class="fc" id="L312">        Prvek(E hodnota) {</span>
+<span class="fc" id="L313">            this.hodnota = hodnota;</span>
+<span class="fc" id="L314">        }</span>
+    }
+
+    private class LinkSeznamIterator&lt;E&gt; implements Iterator&lt;E&gt; {
+
+        Prvek&lt;E&gt; aktualni;
+
+<span class="nc" id="L321">        LinkSeznamIterator(Prvek&lt;E&gt; prvni) {</span>
+<span class="nc" id="L322">            this.aktualni = prvni;</span>
+<span class="nc" id="L323">        }</span>
+
+        @Override
+        public boolean hasNext() {
+<span class="nc" id="L327">            throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody</span>
+        }
+
+        @Override
+        public E next() {
+<span class="nc" id="L332">            throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody</span>
+        }
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

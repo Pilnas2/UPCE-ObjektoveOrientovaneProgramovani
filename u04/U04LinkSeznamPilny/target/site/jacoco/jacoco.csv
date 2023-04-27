@@ -1,0 +1,7 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+U04LinkSeznamPilny,cz.upce.fei.boop.kolekce,LinkSeznam.Prvek,0,6,0,0,0,3,0,1,0,1
+U04LinkSeznamPilny,cz.upce.fei.boop.kolekce,LinkSeznam,313,168,50,16,81,45,41,15,10,13
+U04LinkSeznamPilny,cz.upce.fei.boop.kolekce,LinkSeznam.new Iterator() {...},5,31,2,2,1,7,2,3,0,3
+U04LinkSeznamPilny,cz.upce.fei.boop.kolekce,KolekceException,7,0,0,0,4,0,2,0,2,0
+U04LinkSeznamPilny,cz.upce.fei.boop.kolekce,LinkSeznam.LinkSeznamIterator,19,0,0,0,5,0,3,0,3,0
+U04LinkSeznamPilny,cz.upce.fei.boop.kolekce,SpojovySeznam,5,0,0,0,1,0,1,0,1,0
